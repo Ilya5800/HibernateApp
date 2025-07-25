@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.semin.springmvc.model.Person;
 
+import java.util.List;
+
 /**
  * Hello world!
  */
@@ -12,16 +14,14 @@ public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
         SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
 
         try {
-            Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
+     session.createQuery("delete from Person  where age<30").executeUpdate();
 
-            Person person = session.get(Person.class, 1);
 
-            System.out.println(person.getName());
-            System.out.println(person.getAge());
-            session.getTransaction().commit();
+session.getTransaction().commit();
         } finally {
             sessionFactory.close();
         }
