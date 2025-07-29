@@ -3,12 +3,14 @@ package ru.semin.springmvc.model;
 
 import jakarta.persistence.*;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Person")
 public class Person {
+
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,20 +20,17 @@ public class Person {
     private String name;
     @Column(name = "age")
     private int age;
-    @OneToMany(mappedBy = "owner",cascade = CascadeType.PERSIST)
 
-    private List<Item> items;
+    @OneToOne(mappedBy = "person", cascade = CascadeType.PERSIST)
+
+    private Passport passport;
+
+
 
     public Person() {
 
     }
-public void addItem(Item item){
-        if(this.items == null){
-            this.items=new ArrayList<>();
-        }
-        this.items.add(item);
-        item.setOwner((this));
-}
+
     public Person( String name, int age) {
 
         this.name = name;
@@ -62,12 +61,13 @@ public void addItem(Item item){
         this.age = age;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+        passport.setPerson(this);
     }
 
     @Override
