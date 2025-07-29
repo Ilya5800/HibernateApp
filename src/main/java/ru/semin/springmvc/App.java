@@ -7,6 +7,7 @@ import ru.semin.springmvc.model.Item;
 import ru.semin.springmvc.model.Person;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,12 +22,14 @@ public class App {
 
         try {
             session.beginTransaction();
-            Person person = session.find(Person.class, 4);
-           Item item = session.find(Item.class, 1);
-           item.getOwner().getItems().remove(item);
+            Person person = new Person("Test Cascading", 30);
+            person.addItem(new Item("Test Cascadind item1"));
 
-           item.setOwner(person);
-           person.getItems().add(item);
+           person.addItem(new Item("Test Cascadind item2"));
+          person.addItem(new Item("Test Cascadind item3"));
+            session.persist(person);
+
+
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();

@@ -21,7 +21,7 @@ public class Item {
 
     }
 
-    public Item(String itemName,Person owner) {
+    public Item(String itemName) {
         this.owner =owner;
         this.itemName = itemName;
     }

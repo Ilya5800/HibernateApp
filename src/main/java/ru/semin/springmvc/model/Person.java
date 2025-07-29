@@ -3,6 +3,7 @@ package ru.semin.springmvc.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,13 +18,20 @@ public class Person {
     private String name;
     @Column(name = "age")
     private int age;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.PERSIST)
+
     private List<Item> items;
 
     public Person() {
 
     }
-
+public void addItem(Item item){
+        if(this.items == null){
+            this.items=new ArrayList<>();
+        }
+        this.items.add(item);
+        item.setOwner((this));
+}
     public Person( String name, int age) {
 
         this.name = name;
